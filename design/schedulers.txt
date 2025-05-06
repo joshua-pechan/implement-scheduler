@@ -1,0 +1,43 @@
+Design notes for schedulers (part of the system call solution set)
+------------------------------------------------------------------
+
+This part of the solution set covers the following:
+
+   - schedulers
+
+NOTE: The following text documents the 1.x schedulers, and is left
+here as a placeholder. The 2.x schedulers are necessarily very
+different; as of this writing they aren't yet implemented.
+
+
+   Three schedulers are provided; the old round-robin scheduler
+(rrsched), a random scheduler (randsched), and a "priority queue"
+scheduler (pqsched). There is an option for each defined in the kernel
+configuration system. (A kernel that requests no scheduler or multiple
+schedulers may be configured but will not compile.)
+
+   The round-robin scheduler is exactly as in the base OS/161 system.
+
+   The random scheduler is very simple: it has an array of threads, to
+which threads are added when they become runnable. When scheduler() is
+called, a random element is chosen, removed from the array, and
+returned.
+
+   The priority queue scheduler is documented in a large block comment
+in thread/scheduler.c, which is not replicated in this file to avoid
+divergence. Read about it there. Its governing constants are defined
+in the new file include/pqsched.h. Some of its data collection and
+priority logic appears in thread.c; search in thread.c for
+OPT_PQSCHED.
+
+   No data collection or scheduler logic occurs in hardclock(). To
+distinguish voluntary and involuntary context switches, hardclock now
+calls a new function thread_timeryield instead of thread_yield. Apart
+from drawing this distinction, and informing mi_switch(), the new
+function is identical to thread_yield. (This avoids adding an argument
+to thread_yield and thus having to touch every place it's called in
+the assignment 1 code.)
+
+   We provide two extra kernel configs that use the alternate
+schedulers, and new versions of all the other supplied kernel configs
+that use the pqsched scheduler.

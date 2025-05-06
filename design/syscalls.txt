@@ -1,0 +1,26 @@
+System calls solution set design notes
+--------------------------------------
+
+The coding part of the assignment breaks down into several sections.
+
+For:
+   - File system calls: open, read, write, lseek, close, dup2
+   - Current directory calls: chdir, __getcwd
+
+see filetables.txt and filesyscalls.txt.
+
+For:
+   - Process calls: getpid, waitpid, _exit, fork (but not execv)
+   - kill_curthread
+
+see procsyscalls.txt.
+
+For:
+   - The execv system call
+
+see exec.txt.
+
+For:
+   - schedulers
+
+see schedulers.txt.
